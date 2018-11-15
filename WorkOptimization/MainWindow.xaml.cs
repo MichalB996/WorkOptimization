@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WorkOptimization.Models.EmployeeProcessing;
 
 namespace WorkOptimization
 {
@@ -23,6 +24,7 @@ namespace WorkOptimization
         public MainWindow()
         {
             InitializeComponent();
+            FactoryProcessing Factory = FactoryProcessing.Create();
         }
     }
 }

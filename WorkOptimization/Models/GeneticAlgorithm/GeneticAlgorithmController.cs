@@ -16,6 +16,7 @@ namespace WorkOptimization.Models.GeneticAlgorithm
         private double _percentageOfChildrenFromPreviousGeneration;
         private double _percentageOfParentsChosenToSelection;
 
+
         public GeneticAlgorithmController(GeneticAlgorithmParameters algorithmParameteres)
         {
             _employeesNumber = algorithmParameteres.EmployeesNumber;
@@ -24,6 +25,7 @@ namespace WorkOptimization.Models.GeneticAlgorithm
             _mutationRate = algorithmParameteres.MutationRate;
             _percentageOfChildrenFromPreviousGeneration = algorithmParameteres.PercentageOfChildrenFromPreviousGeneration;
             _percentageOfParentsChosenToSelection = algorithmParameteres.PercentageOfParentsChosenToSelection;
+            
         }
     }
 }

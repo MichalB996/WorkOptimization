@@ -12,6 +12,7 @@ namespace WorkOptimization.Models.Factory
         private int _abilities;
         private int _hourlyRate;
         private List<int> _vectorOfAbilities;
+        private byte[] _bytesOfAbilities;
 
         public int UniqueID
         {
@@ -82,6 +83,24 @@ namespace WorkOptimization.Models.Factory
                 }
 
                 _vectorOfAbilities = value;
+            }
+        }
+
+        public byte[] BytesOfAbilities
+        {
+            get
+            {
+                return _bytesOfAbilities;
+            }
+
+            set
+            {
+                if (_bytesOfAbilities == value)
+                {
+                    return;
+                }
+
+                _bytesOfAbilities = value;
             }
         }
     }

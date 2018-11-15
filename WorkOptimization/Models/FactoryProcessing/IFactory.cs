@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WorkOptimization.Models.EmployeeProcessing
+namespace WorkOptimization.Models.FactoryProcessing
 {
-    class EmployeeProcessing
+    //marker interface
+    interface IFactory
     {
     }
 }

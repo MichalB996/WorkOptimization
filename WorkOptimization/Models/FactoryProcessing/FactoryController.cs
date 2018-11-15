@@ -6,19 +6,72 @@ using System.Threading.Tasks;
 using WorkOptimization.EF;
 using WorkOptimization.Models.FactoryProcessing;
 
-namespace WorkOptimization.Models.EmployeeProcessing
+namespace WorkOptimization.Models.FactoryProcessing
 {
-    public class FactoryProcessing : IFactory
+    public class FactoryController : IFactory
     {
-        private List<Employees> EmployeesList { get; set; }
-        private List<Machines> MachinesList { get; set; }
-        private List<Factories> FactoriesList { get; set; }
+        private List<Employees> _employeesList { get; set; }
+        private List<Machines> _machinesList { get; set; }
+        private List<Factories> _factoriesList { get; set; }
 
-        private FactoryProcessing()
+        public List<Employees> EmployeesList
         {
-            EmployeesList = new List<Employees>();
-            MachinesList = new List<Machines>();
-            FactoriesList = new List<Factories>();
+            get
+            {
+                return _employeesList;
+            }
+
+            set
+            {
+                if (_employeesList == value)
+                {
+                    return;
+                }
+
+                _employeesList = value;
+            }
+        }
+
+        public List<Machines> MachinesList
+        {
+            get
+            {
+                return _machinesList;
+            }
+
+            set
+            {
+                if (_machinesList == value)
+                {
+                    return;
+                }
+
+                _machinesList = value;
+            }
+        }
+
+        public List<Factories> FactoriesList
+        {
+            get
+            {
+                return _factoriesList;
+            }
+
+            set
+            {
+                if (_factoriesList == value)
+                {
+                    return;
+                }
+
+                _factoriesList = value;
+            }
+        }
+        private FactoryController()
+        {
+            _employeesList = new List<Employees>();
+            _machinesList = new List<Machines>();
+            _factoriesList = new List<Factories>();
             GetDataFromDatabase();
         }
 
@@ -32,11 +85,11 @@ namespace WorkOptimization.Models.EmployeeProcessing
                 }
                 foreach(Factories f in context.Factories)
                 {
-                    FactoriesList.Add(f);
+                    _factoriesList.Add(f);
                 }
                 foreach(Machines m in context.Machines)
                 {
-                    MachinesList.Add(m);
+                    _machinesList.Add(m);
                 }
             }
         }
@@ -68,10 +121,10 @@ namespace WorkOptimization.Models.EmployeeProcessing
             if (binaryString.Length != numberOfWorkers)
                 throw new Exception("Number of Abilities is not equal to number of machines!");
             employee.VectorOfAbilities = binaryString;
-            EmployeesList.Add(employee);
+            _employeesList.Add(employee);
         }
 
-        public static FactoryProcessing Create()
-            => new FactoryProcessing();
+        public static FactoryController Create()
+            => new FactoryController();
     }
 }

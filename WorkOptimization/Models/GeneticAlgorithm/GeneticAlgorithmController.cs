@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WorkOptimization.Models.GeneticAlgorithm
 {
-    public class GeneticAlgorithmController
+    public class GeneticAlgorithmController : IAlgorithm
     {
         private static readonly Random _randomNumber = new Random();
         private int _employeesNumber;

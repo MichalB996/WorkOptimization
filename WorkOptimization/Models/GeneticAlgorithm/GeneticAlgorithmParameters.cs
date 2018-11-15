@@ -124,5 +124,21 @@ namespace WorkOptimization.Models.GeneticAlgorithm
                 _percentageOfParentsChosenToSelection = value;
             }
         }
+
+        private GeneticAlgorithmParameters(int employeesNumber, int sizeOfPopulation, int numberOfIterations, 
+            double mutationRate, double percentageOfChildrenFromPreviousGeneration, double percentageOfParentsChosenToSelection)
+        {
+            EmployeesNumber = employeesNumber;
+            SizeOfPopulation = sizeOfPopulation;
+            NumberOfIterations = numberOfIterations;
+            MutationRate = mutationRate;
+            PercentageOfChildrenFromPreviousGeneration = percentageOfChildrenFromPreviousGeneration;
+            PercentageOfParentsChosenToSelection = PercentageOfParentsChosenToSelection;
+        }
+
+        public static GeneticAlgorithmParameters Create(int employeesNumber, int sizeOfPopulation, int numberOfIterations,
+            double mutationRate, double percentageOfChildrenFromPreviousGeneration, double percentageOfParentsChosenToSelection)
+            => new GeneticAlgorithmParameters(employeesNumber, sizeOfPopulation, numberOfIterations,
+                                    mutationRate, percentageOfChildrenFromPreviousGeneration, percentageOfParentsChosenToSelection);
     }
 }

@@ -12,8 +12,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WorkOptimization.Models.EmployeeProcessing;
-
+using WorkOptimization.EF;
+using WorkOptimization.Models.FactoryProcessing;
+using WorkOptimization.Models.ObjectiveFunction;
+using WorkOptimization.Models.GeneticAlgorithm;
 namespace WorkOptimization
 {
     /// <summary>
@@ -24,7 +26,9 @@ namespace WorkOptimization
         public MainWindow()
         {
             InitializeComponent();
-            FactoryProcessing Factory = FactoryProcessing.Create();
+            GeneticAlgorithmParameters Parameters = GeneticAlgorithmParameters.Create(6,100,100,1,2,2);
+            FactoryController Factory = FactoryController.Create();
+            int profit = ObjectiveFunctionCounter.CountValueOfTheFunction(Factory);
         }
     }
 }

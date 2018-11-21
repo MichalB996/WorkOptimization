@@ -3,11 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WorkOptimization.Comparers;
+using WorkOptimization.EF;
 
 namespace WorkOptimization.Models.GeneticAlgorithm
 {
-    class Specimen 
+    public class Specimen 
     {
-        private int Genome { get; set; }
+        public Dictionary<Machines, Employees> Genome { get; set; }
+
+        public Specimen()
+        {
+            Genome = new Dictionary<Machines, Employees>(new MachinesComparer());
+        }
     }
 }

@@ -14,8 +14,10 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WorkOptimization.EF;
 using WorkOptimization.Models.FactoryProcessing;
-using WorkOptimization.Models.ObjectiveFunction;
 using WorkOptimization.Models.GeneticAlgorithm;
+using WorkOptimization.Models.MathematicalFunction.ObjectiveFunction;
+using WorkOptimization.Models.MathematicalModel.Subjects;
+
 namespace WorkOptimization
 {
     /// <summary>
@@ -26,9 +28,14 @@ namespace WorkOptimization
         public MainWindow()
         {
             InitializeComponent();
-            GeneticAlgorithmParameters Parameters = GeneticAlgorithmParameters.Create(6,100,100,1,2,2);
             FactoryController Factory = FactoryController.Create();
-            int profit = ObjectiveFunctionCounter.CountValueOfTheFunction(Factory);
+            GeneticAlgorithmParameters Parameters = GeneticAlgorithmParameters.Create(6,10,100,1,2,2);
+
+            //int profit = ObjectiveFunctionCounter.CountValueOfTheFunction(Factory);
+            Subjects sub = new Subjects(Factory);
+            //sub.MakeSubject();
+            GeneticAlgorithmController Controller = new GeneticAlgorithmController(Parameters,Factory);
+            Console.WriteLine("dupa");
         }
     }
 }

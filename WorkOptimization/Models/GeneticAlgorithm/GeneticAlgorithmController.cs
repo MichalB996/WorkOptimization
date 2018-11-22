@@ -83,13 +83,16 @@ namespace WorkOptimization.Models.GeneticAlgorithm
             List<Specimen> newPopulation = new List<Specimen>(Population.GetRange(0, specimensFromEarlierPopulation));
             Specimen specimen_1 = Population[_randomNumber.Next(Population.Count)];
             Specimen specimen_2 = Population[_randomNumber.Next(Population.Count)];
+            Crossover(specimen_1, specimen_2);
         }
 
         public Specimen Crossover(Specimen specimen_1, Specimen specimen_2)
         {
-
-
-
+            int k = _randomNumber.Next(specimen_1.Genome.Count);
+            KeyValuePair<Machines, Employees> pair_1_gen_1 = specimen_1.Genome.ToList()[k];
+            var pair_1_gen_2 = specimen_2.Genome.ToList().Find( o => o.Key == pair_1_gen_1.Key);
+            var pair_2_gen_2 = specimen_2.Genome.ToList().Find(o => o.Value == pair_1_gen_1.Value);
+            var pair_2_gen_1 = specimen_1.Genome.ToList().Find(o => o.Value == pair_1_gen_2.Value);
             return new Specimen();
         }
 

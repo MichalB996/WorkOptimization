@@ -92,6 +92,7 @@ namespace WorkOptimization.Models.GeneticAlgorithm
 
         public Dictionary<Machines, Employees> MutateSpecimen(Dictionary<Machines, Employees> genome)
         {
+            int counter = 0;
             var genomeList = genome.ToList();
             int k1 = _randomNumber.Next(genome.Count);
             var machineNumber = _factory.MachinesList.IndexOf(genomeList[k1].Key);
@@ -99,28 +100,32 @@ namespace WorkOptimization.Models.GeneticAlgorithm
                                 s => s.VectorOfAbilities[machineNumber] == '1' && s.EmployeeID != genomeList[k1].Value.EmployeeID);
             int k2 = _randomNumber.Next(employeesList.Count);
             var machine_1 = genomeList.Find(s => s.Value.EmployeeID == employeesList[k2].EmployeeID);
-            genome[genomeList[k1].Key] = employeesList[k2];
-            genome[machine_1.Key] = genomeList[k1].Value;
+            int machine_2_Number = _factory.MachinesList.IndexOf(machine_1.Key);
+            while(genomeList[k1].Value.VectorOfAbilities[machine_2_Number] != '1' && counter < employeesList.Count)
+            {
+                k2 = _randomNumber.Next(employeesList.Count);
+                while (k1 == k2)
+                {
+                    k2 = _randomNumber.Next(employeesList.Count);
+                }
+                machine_1 = genomeList.Find(s => s.Value.EmployeeID == employeesList[k2].EmployeeID);
+                machine_2_Number = _factory.MachinesList.IndexOf(machine_1.Key);
+                counter++;
+            }
+            if(counter != employeesList.Count)
+            {
+                genome.Remove(genomeList[k1].Key);
+                genome.Remove(machine_1.Key);
+                genome.Add(genomeList[k1].Key, employeesList[k2]);
+                genome.Add(machine_1.Key, genomeList[k1].Value);
+                var genome_1 = genome.ToList();
+                genome_1.OrderBy(o => o.Value.Abilities);
+                var c = genome.OrderBy(o => o.Value.Abilities);
+                genome = c.ToDictionary((keyItem) => keyItem.Key, (valueItem) => valueItem.Value);
+            }
 
             return genome;
         }
     }
 }
- 
-/*
- Specimen specimen = new Specimen();
-                for (int j = 0; j< employeesNumber; j++)
-                {
-                    List<Employees> tempList = new List<Employees>(_subjects._machinesAndItsOperators[j]);
-                    int k = _randomNumber.Next(tempList.Count);
-                    Employees chosen = tempList[k];
-                    //while(specimen.Genome.Contains(chosen))
-                    while (specimen.Genome.ContainsValue(chosen))
-                    {
-                        k = _randomNumber.Next(tempList.Count);
-                        chosen = tempList[k];
-                    }
-                    specimen.Genome.Add(_machineList[j], chosen);
-                }
-                Population.Add(specimen);
- */
+

@@ -29,7 +29,7 @@ namespace WorkOptimization
         {
             InitializeComponent();
             FactoryController Factory = FactoryController.Create();
-            GeneticAlgorithmParameters Parameters = GeneticAlgorithmParameters.Create(6,10,100,0.2,2,2);
+            GeneticAlgorithmParameters Parameters = GeneticAlgorithmParameters.Create(6,50,100,0.2,0.1,2);
 
             //int profit = ObjectiveFunctionCounter.CountValueOfTheFunction(Factory);
             Subjects sub = new Subjects(Factory);

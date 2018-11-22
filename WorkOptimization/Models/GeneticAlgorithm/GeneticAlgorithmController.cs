@@ -66,16 +66,31 @@ namespace WorkOptimization.Models.GeneticAlgorithm
                         k = _randomNumber.Next(tempList.Count);
                     }
                     specimen.Genome.Add(_factory.MachinesList[tempList[k]], employee);
-                    profitList.Add(ObjectiveFunctionCounter.CountValueOfTheFunction(_factory,specimen));
+                    specimen.Profit = ObjectiveFunctionCounter.CountValueOfTheFunction(_factory,specimen);
+                    profitList.Add(ObjectiveFunctionCounter.CountValueOfTheFunction(_factory, specimen));
                 }
                 Population.Add(specimen);              
             }
+            Population = Population.OrderBy(o => o.Profit).Reverse().ToList();
             Mutate(Population, _mutationRate);
+            CrossoverTwoSpecimens(Population);
         }
-        
-        public void Crossover()
+
+
+        public void CrossoverTwoSpecimens(List<Specimen> Population)
+        {
+            int specimensFromEarlierPopulation = (int)(_percentageOfChildrenFromPreviousGeneration * Population.Count);
+            List<Specimen> newPopulation = new List<Specimen>(Population.GetRange(0, specimensFromEarlierPopulation));
+            Specimen specimen_1 = Population[_randomNumber.Next(Population.Count)];
+            Specimen specimen_2 = Population[_randomNumber.Next(Population.Count)];
+        }
+
+        public Specimen Crossover(Specimen specimen_1, Specimen specimen_2)
         {
 
+
+
+            return new Specimen();
         }
 
         public void Mutate(List<Specimen> population, double mutationRate)
@@ -125,6 +140,11 @@ namespace WorkOptimization.Models.GeneticAlgorithm
             }
 
             return genome;
+        }
+
+        public void UpdatePopulation()
+        {
+
         }
     }
 }

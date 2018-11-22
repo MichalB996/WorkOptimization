@@ -11,6 +11,7 @@ namespace WorkOptimization.Models.GeneticAlgorithm
     public class Specimen 
     {
         public Dictionary<Machines, Employees> Genome { get; set; }
+        public double Profit { get; set; }
 
         public Specimen()
         {

@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WorkOptimization.Comparers;
 using WorkOptimization.EF;
 using WorkOptimization.Models.FactoryProcessing;
 using WorkOptimization.Models.MathematicalFunction.ObjectiveFunction;
@@ -21,10 +18,8 @@ namespace WorkOptimization.Models.GeneticAlgorithm
         private double _percentageOfChildrenFromPreviousGeneration;
         private double _percentageOfParentsChosenToSelection;
         private FactoryController _factory;
-        private List<int> _iterationResults;
         private Subjects _subjects;
         public List<Specimen> Population { get; set; }
-        private List<Employees> _employeesList;
 
         public GeneticAlgorithmController(GeneticAlgorithmParameters algorithmParameteres, FactoryController factory)
         {
@@ -66,34 +61,143 @@ namespace WorkOptimization.Models.GeneticAlgorithm
                         k = _randomNumber.Next(tempList.Count);
                     }
                     specimen.Genome.Add(_factory.MachinesList[tempList[k]], employee);
-                    specimen.Profit = ObjectiveFunctionCounter.CountValueOfTheFunction(_factory,specimen);
-                    profitList.Add(ObjectiveFunctionCounter.CountValueOfTheFunction(_factory, specimen));
                 }
+                specimen.Profit = ObjectiveFunctionCounter.CountValueOfTheFunction(_factory, specimen);                
                 Population.Add(specimen);              
             }
             Population = Population.OrderBy(o => o.Profit).Reverse().ToList();
-            Mutate(Population, _mutationRate);
-            CrossoverTwoSpecimens(Population);
+            UpdatePopulation(Population,_numberOfIterations);
         }
 
+        public void UpdatePopulation(List<Specimen> population, int numberOfIterations)
+        {
+            var tempPopulation = new List<Specimen>(population);
+            var nextPopulation = new List<Specimen>();
+            for (int i = 0; i < tempPopulation.Count; i++)
+            {
+                var spec = CrossoverTwoSpecimens(tempPopulation);
+                nextPopulation.Add(spec);
+            }
 
-        public void CrossoverTwoSpecimens(List<Specimen> Population)
+            Mutate(Population, _mutationRate);
+            for (int i = 0; i < Population.Count; i++)
+            {
+                CrossoverTwoSpecimens(Population);
+            }
+        }
+
+        public Specimen CrossoverTwoSpecimens(List<Specimen> Population)
         {
             int specimensFromEarlierPopulation = (int)(_percentageOfChildrenFromPreviousGeneration * Population.Count);
             List<Specimen> newPopulation = new List<Specimen>(Population.GetRange(0, specimensFromEarlierPopulation));
             Specimen specimen_1 = Population[_randomNumber.Next(Population.Count)];
             Specimen specimen_2 = Population[_randomNumber.Next(Population.Count)];
-            Crossover(specimen_1, specimen_2);
+            Specimen result_specimen = Crossover(specimen_1, specimen_2);
+            result_specimen.Profit = ObjectiveFunctionCounter.CountValueOfTheFunction(_factory, result_specimen);
+            return result_specimen;
         }
 
         public Specimen Crossover(Specimen specimen_1, Specimen specimen_2)
         {
+            var specimen_1_genome_copy = new Dictionary<Machines, Employees>(specimen_1.Genome);
+            var specimen_2_genome_copy = new Dictionary<Machines, Employees>(specimen_2.Genome);
+            Specimen result = new Specimen();
             int k = _randomNumber.Next(specimen_1.Genome.Count);
-            KeyValuePair<Machines, Employees> pair_1_gen_1 = specimen_1.Genome.ToList()[k];
-            var pair_1_gen_2 = specimen_2.Genome.ToList().Find( o => o.Key == pair_1_gen_1.Key);
-            var pair_2_gen_2 = specimen_2.Genome.ToList().Find(o => o.Value == pair_1_gen_1.Value);
-            var pair_2_gen_1 = specimen_1.Genome.ToList().Find(o => o.Value == pair_1_gen_2.Value);
-            return new Specimen();
+            var pair_1_gen_1 = specimen_1_genome_copy.ToList()[k];
+            var pair_1_gen_2 = specimen_2_genome_copy.ToList().Find(o => o.Key == pair_1_gen_1.Key);
+            var pair_2_gen_2 = specimen_2_genome_copy.ToList().Find(o => o.Value == pair_1_gen_1.Value);
+            var pair_2_gen_1 = specimen_1_genome_copy.ToList().Find(o => o.Value == pair_1_gen_2.Value);
+            if (pair_1_gen_1.Key == pair_2_gen_1.Key)
+            {
+                return specimen_1;
+
+            }
+            if (pair_1_gen_1.Key == pair_1_gen_2.Key && pair_2_gen_1.Key == pair_2_gen_2.Key)
+            {
+                result.Genome.Add(pair_1_gen_1.Key, pair_1_gen_1.Value);
+                result.Genome.Add(pair_2_gen_1.Key, pair_1_gen_2.Value);
+                specimen_2_genome_copy.Remove(pair_1_gen_1.Key);
+                specimen_2_genome_copy.Remove(pair_2_gen_1.Key);
+                foreach (KeyValuePair<Machines, Employees> kvp in specimen_2_genome_copy)
+                {
+                    result.Genome.Add(kvp.Key, kvp.Value);
+                }
+                var gen = result.Genome.ToList().OrderBy(o => o.Value.Abilities);
+                var genome = gen.ToDictionary((keyItem) => keyItem.Key, (valueItem) => valueItem.Value);
+                result.Genome = genome;
+                return result;
+            }
+            var free_machine_from_pair_2_gen_2 = pair_2_gen_2.Key;
+            var free_employee_from_gen_2 = specimen_2.Genome[pair_2_gen_1.Key];
+            var free_machine_number = _factory.MachinesList.IndexOf(free_machine_from_pair_2_gen_2);
+            if (free_employee_from_gen_2.VectorOfAbilities[free_machine_number] == '1')
+            {
+                result.Genome.Add(pair_1_gen_1.Key, pair_1_gen_1.Value);
+                result.Genome.Add(pair_2_gen_1.Key, pair_2_gen_1.Value);
+                result.Genome.Add(free_machine_from_pair_2_gen_2, free_employee_from_gen_2);
+                specimen_2_genome_copy.Remove(pair_1_gen_1.Key);
+                specimen_2_genome_copy.Remove(pair_2_gen_1.Key);
+                specimen_2_genome_copy.Remove(free_machine_from_pair_2_gen_2);
+                foreach (KeyValuePair<Machines, Employees> kvp in specimen_2_genome_copy)
+                {
+                    result.Genome.Add(kvp.Key, kvp.Value);
+                }
+                var gen = result.Genome.ToList().OrderBy(o => o.Value.Abilities);
+                var genome = gen.ToDictionary((keyItem) => keyItem.Key, (valueItem) => valueItem.Value);
+                result.Genome = genome;
+                return result;
+            }
+            else
+            {
+                var employeesList = _factory.EmployeesList.FindAll(
+                    s => s.VectorOfAbilities[free_machine_number] == '1' && s.EmployeeID != pair_1_gen_1.Value.EmployeeID
+                    && s.EmployeeID != pair_2_gen_1.Value.EmployeeID);
+
+                int k2 = _randomNumber.Next(employeesList.Count);
+                var drewn_employee = employeesList[k2];
+                var drewn_employeee_and_its_machine = specimen_2.Genome.ToList().Find(o => o.Value == drewn_employee);
+                var drewn_employee_machine_number = _factory.MachinesList.IndexOf(drewn_employeee_and_its_machine.Key);
+                int counter = 0;
+                while (free_employee_from_gen_2.VectorOfAbilities[drewn_employee_machine_number] != '1' && counter < 10)
+                {
+                    counter++;
+                    employeesList = _factory.EmployeesList.FindAll(
+                                    s => s.VectorOfAbilities[free_machine_number] == '1' && s.EmployeeID != pair_1_gen_1.Value.FactoryID
+                                    && s.EmployeeID != pair_2_gen_1.Value.FactoryID);
+
+                    employeesList.Remove(pair_1_gen_1.Value);
+                    employeesList.Remove(pair_2_gen_1.Value);
+
+
+                    k2 = _randomNumber.Next(employeesList.Count);
+                    drewn_employee = employeesList[k2];
+                    drewn_employeee_and_its_machine = specimen_2.Genome.ToList().Find(o => o.Value == drewn_employee);
+                    drewn_employee_machine_number = _factory.MachinesList.IndexOf(drewn_employeee_and_its_machine.Key);
+                }
+                if (counter == 10)
+                {
+                    return specimen_1;
+                }
+                result.Genome.Add(pair_1_gen_1.Key, pair_1_gen_1.Value);
+                result.Genome.Add(pair_2_gen_1.Key, pair_2_gen_1.Value);
+                result.Genome.Add(_factory.MachinesList[drewn_employee_machine_number], free_employee_from_gen_2);
+                result.Genome.Add(_factory.MachinesList[free_machine_number], drewn_employee);
+                specimen_2_genome_copy.Remove(pair_1_gen_1.Key);
+                specimen_2_genome_copy.Remove(pair_2_gen_1.Key);
+                specimen_2_genome_copy.Remove(_factory.MachinesList[drewn_employee_machine_number]);
+                specimen_2_genome_copy.Remove(_factory.MachinesList[free_machine_number]);
+
+
+                foreach (KeyValuePair<Machines, Employees> kvp in specimen_2_genome_copy)
+                {
+                    result.Genome.Add(kvp.Key, kvp.Value);
+                }
+                //return result;
+                var gen = result.Genome.ToList().OrderBy(o => o.Value.Abilities);
+                var genome = gen.ToDictionary((keyItem) => keyItem.Key, (valueItem) => valueItem.Value);
+                result.Genome = genome;
+                return result;
+            }
         }
 
         public void Mutate(List<Specimen> population, double mutationRate)
@@ -145,10 +249,6 @@ namespace WorkOptimization.Models.GeneticAlgorithm
             return genome;
         }
 
-        public void UpdatePopulation()
-        {
-
-        }
     }
 }
 

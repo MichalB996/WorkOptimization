@@ -73,6 +73,7 @@
     </Compile>
     <Compile Include="Comparers\EmployeesComparer.cs" />
     <Compile Include="Comparers\MachinesComparer.cs" />
+    <Compile Include="CreateResultFile\CreateFile.cs" />
     <Compile Include="EF\Employees.cs" />
     <Compile Include="EF\Factories.cs" />
     <Compile Include="EF\FactoryEntities.cs" />
@@ -93,6 +94,7 @@
     <Compile Include="Models\GeneticAlgorithm\IAlgorithm.cs" />
     <Compile Include="Models\GeneticAlgorithm\Specimen.cs" />
     <Compile Include="Models\MathematicalModel\ObjectiveFunction\ObjectiveFunctionCounter.cs" />
+    <Compile Include="Models\MathematicalModel\ObjectiveFunction\ObjectiveFunctionCounter_1.cs" />
     <Compile Include="Models\MathematicalModel\Subjects\Subjects.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

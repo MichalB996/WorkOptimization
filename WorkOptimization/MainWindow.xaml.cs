@@ -1,22 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using WorkOptimization.EF;
 using WorkOptimization.Models.FactoryProcessing;
 using WorkOptimization.Models.GeneticAlgorithm;
-using WorkOptimization.Models.MathematicalFunction.ObjectiveFunction;
-using WorkOptimization.Models.MathematicalModel.Subjects;
 
 namespace WorkOptimization
 {
@@ -29,12 +14,16 @@ namespace WorkOptimization
         {
             InitializeComponent();
             FactoryController Factory = FactoryController.Create();
-            GeneticAlgorithmParameters Parameters = GeneticAlgorithmParameters.Create(6,50,100,0.2,0.1,2);
-
-            //int profit = ObjectiveFunctionCounter.CountValueOfTheFunction(Factory);
-            Subjects sub = new Subjects(Factory);
-            //sub.MakeSubject();
+            GeneticAlgorithmParameters Parameters = GeneticAlgorithmParameters.Create(25,100,1000,0.7,0.2,2);
             GeneticAlgorithmController Controller = new GeneticAlgorithmController(Parameters,Factory);
+            //int profit = ObjectiveFunctionCounter.CountValueOfTheFunction(Factory);
+            //Subjects sub = new Subjects(Factory);
+            //sub.MakeSubject();
+            //for(int i =0; i<100;i++)
+            //{
+
+            //}
+            
             Console.WriteLine("dupa");
         }
     }

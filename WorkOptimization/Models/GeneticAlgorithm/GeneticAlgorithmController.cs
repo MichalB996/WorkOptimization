@@ -4,13 +4,14 @@ using System.Linq;
 using WorkOptimization.EF;
 using WorkOptimization.Models.FactoryProcessing;
 using WorkOptimization.Models.MathematicalFunction.ObjectiveFunction;
+using WorkOptimization.Models.MathematicalModel.ObjectiveFunction;
 using WorkOptimization.Models.MathematicalModel.Subjects;
 
 namespace WorkOptimization.Models.GeneticAlgorithm
 {
     public class GeneticAlgorithmController : IAlgorithm
     {
-        private static readonly Random _randomNumber = new Random();
+        public static readonly Random _randomNumber = new Random();
         private int _employeesNumber;
         private int _sizeOfPopulation;
         private int _numberOfIterations;
@@ -19,6 +20,7 @@ namespace WorkOptimization.Models.GeneticAlgorithm
         private double _percentageOfParentsChosenToSelection;
         private FactoryController _factory;
         private Subjects _subjects;
+        public List<double> _iterationResults;
         public List<Specimen> Population { get; set; }
 
         public GeneticAlgorithmController(GeneticAlgorithmParameters algorithmParameteres, FactoryController factory)
@@ -32,6 +34,7 @@ namespace WorkOptimization.Models.GeneticAlgorithm
             _factory = factory;
             _subjects = new Subjects(factory);
             _subjects.MakeSubject();
+            _iterationResults = new List<double>();
 
             Population = new List<Specimen>();
             CreatePopulation(_sizeOfPopulation, _employeesNumber, _subjects);
@@ -46,6 +49,7 @@ namespace WorkOptimization.Models.GeneticAlgorithm
                 Specimen specimen = new Specimen();
                 for (int j =0; j < employeesNumber; j++)
                 {
+                    int counter = 0;
                     var tempList = new List<int>();
                     Employees employee = sorted[j];
                     for(int u = 0; u < employee.VectorOfAbilities.Length;u++)
@@ -56,34 +60,58 @@ namespace WorkOptimization.Models.GeneticAlgorithm
                         }
                     }
                     int k = _randomNumber.Next(tempList.Count);
-                    while (specimen.Genome.ContainsKey(_factory.MachinesList[tempList[k]]))
+                    while (specimen.Genome.ContainsKey(_factory.MachinesList[tempList[k]]) && counter < 1000)
                     {
+                        counter++;
                         k = _randomNumber.Next(tempList.Count);
                     }
-                    specimen.Genome.Add(_factory.MachinesList[tempList[k]], employee);
+                    if(counter >= 1000)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        specimen.Genome.Add(_factory.MachinesList[tempList[k]], employee);
+                    }
+                    
                 }
-                specimen.Profit = ObjectiveFunctionCounter.CountValueOfTheFunction(_factory, specimen);                
-                Population.Add(specimen);              
+                if(specimen.Genome.Count == employeesNumber)
+                {
+                    //specimen.Profit = ObjectiveFunctionCounter.CountValueOfTheFunction(_factory, specimen);                
+                    //public static double CountValueOfTheFunction(Specimen specimen, int specializedLimit, int extraHours)
+                    specimen.Profit = ObjectiveFunctionCounter_1.CountValueOfTheFunction(specimen,11,2);
+                    Population.Add(specimen);  
+                }
+                else
+                {
+                    i--;
+                }
+                            
             }
-            Population = Population.OrderBy(o => o.Profit).Reverse().ToList();
+            Population = Population.OrderBy(o => o.Profit).ToList();
+            _iterationResults.Add(Population[Population.Count-1].Profit);
             UpdatePopulation(Population,_numberOfIterations);
+            CreateResultFile.CreateFile.CreateResultFile(_iterationResults);
         }
 
         public void UpdatePopulation(List<Specimen> population, int numberOfIterations)
         {
-            var tempPopulation = new List<Specimen>(population);
-            var nextPopulation = new List<Specimen>();
-            for (int i = 0; i < tempPopulation.Count; i++)
+            for(int j = 0; j < numberOfIterations; j++)
             {
-                var spec = CrossoverTwoSpecimens(tempPopulation);
-                nextPopulation.Add(spec);
-            }
+                var tempPopulation = new List<Specimen>(population);
+                var nextPopulation = new List<Specimen>();
+                for (int i = 0; i < tempPopulation.Count; i++)
+                {
+                    var spec = CrossoverTwoSpecimens(tempPopulation);
+                    nextPopulation.Add(spec);
+                }
 
-            Mutate(Population, _mutationRate);
-            for (int i = 0; i < Population.Count; i++)
-            {
-                CrossoverTwoSpecimens(Population);
+                Mutate(nextPopulation, _mutationRate);
+
+                nextPopulation = nextPopulation.OrderBy(o => o.Profit).ToList();
+                _iterationResults.Add(nextPopulation[Population.Count - 1].Profit);
             }
+            
         }
 
         public Specimen CrossoverTwoSpecimens(List<Specimen> Population)
@@ -93,7 +121,8 @@ namespace WorkOptimization.Models.GeneticAlgorithm
             Specimen specimen_1 = Population[_randomNumber.Next(Population.Count)];
             Specimen specimen_2 = Population[_randomNumber.Next(Population.Count)];
             Specimen result_specimen = Crossover(specimen_1, specimen_2);
-            result_specimen.Profit = ObjectiveFunctionCounter.CountValueOfTheFunction(_factory, result_specimen);
+            //result_specimen.Profit = ObjectiveFunctionCounter.CountValueOfTheFunction(_factory, result_specimen);
+            result_specimen.Profit = ObjectiveFunctionCounter_1.CountValueOfTheFunction(result_specimen, 11, 2);
             return result_specimen;
         }
 
@@ -210,6 +239,7 @@ namespace WorkOptimization.Models.GeneticAlgorithm
                     population[i].Genome = MutateSpecimen(population[i].Genome);
                 }
             }
+            population = population.OrderBy(o => o.Profit).ToList();
         }
 
         public Dictionary<Machines, Employees> MutateSpecimen(Dictionary<Machines, Employees> genome)
@@ -247,8 +277,7 @@ namespace WorkOptimization.Models.GeneticAlgorithm
             }
 
             return genome;
-        }
-
+        }      
     }
 }
 

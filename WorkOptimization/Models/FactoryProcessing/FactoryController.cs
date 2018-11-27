@@ -81,7 +81,7 @@ namespace WorkOptimization.Models.FactoryProcessing
             {
                 foreach (Employees e in context.Employees)
                 {
-                    HexProcessing(e, 6);
+                    HexProcessing(e, 25);
                 }
                 foreach(Factories f in context.Factories)
                 {
@@ -111,8 +111,20 @@ namespace WorkOptimization.Models.FactoryProcessing
                     s = s + "0";
                 }
                 binaryString = s + binaryString;
-            }
+            }/*
             if (binaryString.Length > numberOfWorkers)
+            {
+                var a = binaryString.Length - numberOfWorkers;
+                var b = binaryString.Length - 2;
+                binaryString = binaryString.Substring(a, b);
+            }*/
+            if (binaryString.Length > numberOfWorkers && numberOfWorkers >= 25)
+            {
+                var a = binaryString.Length - numberOfWorkers;
+                //var b = binaryString.Length - 2;
+                binaryString = binaryString.Substring(a, binaryString.Length - 3);
+            }
+            else if (binaryString.Length > numberOfWorkers)
             {
                 var a = binaryString.Length - numberOfWorkers;
                 var b = binaryString.Length - 2;

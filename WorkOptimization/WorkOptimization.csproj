@@ -78,6 +78,9 @@
     <Compile Include="EF\Factories.cs" />
     <Compile Include="EF\FactoryEntities.cs" />
     <Compile Include="EF\Machines.cs" />
+    <Compile Include="Models\BessAlgorithm\Bee.cs" />
+    <Compile Include="Models\BessAlgorithm\BeesAlgorithmController.cs" />
+    <Compile Include="Models\BessAlgorithm\BeesAlgorithmParameters.cs" />
     <Compile Include="Models\FactoryProcessing\FactoryController.cs" />
     <Compile Include="Models\FactoryProcessing\IFactory.cs" />
     <Compile Include="Models\Factory\Element.cs" />

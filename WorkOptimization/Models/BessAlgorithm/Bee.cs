@@ -17,5 +17,9 @@ namespace WorkOptimization.Models.BessAlgorithm
         {
             Trail = new Dictionary<Machines, Employees>(new MachinesComparer());
         }
+        public Bee(Dictionary<Machines, Employees> dict)
+        {
+            Trail = new Dictionary<Machines, Employees>(dict,new MachinesComparer());
+        }
     }
 }

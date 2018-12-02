@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace WorkOptimization.Models.GeneticAlgorithm
 {
-    public class GeneticAlgorithmParameters
+    public class GeneticAlgorithmParameters : INotifyPropertyChanged
     {
         private int _employeesNumber;
         private int _sizeOfPopulation;
@@ -14,6 +15,8 @@ namespace WorkOptimization.Models.GeneticAlgorithm
         private double _mutationRate;
         private double _percentageOfChildrenFromPreviousGeneration;
         private double _percentageOfParentsChosenToSelection;
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public int EmployeesNumber
         {
@@ -30,6 +33,8 @@ namespace WorkOptimization.Models.GeneticAlgorithm
                 }
 
                 _employeesNumber = value;
+                PropertyChanged(this, new PropertyChangedEventArgs(EmployeesNumber.ToString()));
+
             }
         }
 
@@ -48,6 +53,7 @@ namespace WorkOptimization.Models.GeneticAlgorithm
                 }
 
                 _sizeOfPopulation = value;
+                PropertyChanged(this, new PropertyChangedEventArgs(SizeOfPopulation.ToString()));
             }
         }
 
@@ -66,6 +72,7 @@ namespace WorkOptimization.Models.GeneticAlgorithm
                 }
 
                 _numberOfIterations = value;
+                PropertyChanged(this, new PropertyChangedEventArgs(NumberOfIterations.ToString()));
             }
         }
 
@@ -84,6 +91,7 @@ namespace WorkOptimization.Models.GeneticAlgorithm
                 }
 
                 _mutationRate = value;
+                PropertyChanged(this, new PropertyChangedEventArgs(MutationRate.ToString()));
             }
         }
 
@@ -103,6 +111,7 @@ namespace WorkOptimization.Models.GeneticAlgorithm
                 }
 
                 _percentageOfChildrenFromPreviousGeneration = value;
+                PropertyChanged(this, new PropertyChangedEventArgs(PercentageOfChildrenFromPreviousGeneration.ToString()));
             }
         }
 

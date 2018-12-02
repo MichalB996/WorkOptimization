@@ -72,6 +72,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ViewModels\GeneticAlgorithmViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -108,6 +109,8 @@
     <Compile Include="Models\MathematicalModel\ObjectiveFunction\ObjectiveFunctionCounter.cs" />
     <Compile Include="Models\MathematicalModel\ObjectiveFunction\ObjectiveFunctionCounter_1.cs" />
     <Compile Include="Models\MathematicalModel\Subjects\Subjects.cs" />
+    <Compile Include="Models\Plotter\CollectionDataValue.cs" />
+    <Compile Include="Models\Plotter\Plotter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -134,6 +137,8 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Views\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

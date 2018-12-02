@@ -1,12 +1,63 @@
 ﻿<Window x:Class="WorkOptimization.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:oxy="http://oxyplot.org/wpf"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WorkOptimization"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+                Title="MainWindow" Height="720" Width="1280">
     <Grid>
-        
+        <Canvas>
+            <Label Content="Work optimizatation controller" Foreground="Black" Height="50" Canvas.Left="450" Canvas.Top="20" Width="420" FontSize="30
+                       " RenderTransformOrigin="0.5,0.5" />
+            <Label Content="Genetic algorithm parameters" Foreground="Black" Height="40" Canvas.Left="10" Canvas.Top="65" Width="275" FontSize="20" RenderTransformOrigin="0.5,0.5" />
+            <Label Content="Number of iterations" Foreground="Black" Height="35" Canvas.Left="10" Canvas.Top="90" Width="195" FontSize="20" RenderTransformOrigin="0.5,0.5" />
+            <TextBox Text="{Binding GeneticAlgorithm.NumberOfIterations}" Canvas.Left="15" Canvas.Top="120" Height="31" Width="164"/>
+            <Label Content="Size of population" Foreground="Black" Height="35" Canvas.Left="10" Canvas.Top="149" Width="170" FontSize="20" RenderTransformOrigin="0.5,0.5" />
+            <TextBox Text="{Binding GeneticAlgorithm.SizeOfPopulation}" Canvas.Left="15" Canvas.Top="179" Height="31" Width="164"/>
+            <Label Content="Mutation Rate" Foreground="Black" Height="35" Canvas.Left="10" Canvas.Top="210" Width="170" FontSize="20" RenderTransformOrigin="0.5,0.5" />
+            <TextBox Text="{Binding GeneticAlgorithm.MutationRate}" Canvas.Left="15" Canvas.Top="240" Height="31" Width="164"/>
+            <Label Content="Percentage of children" Foreground="Black" Height="35" Canvas.Left="10" Canvas.Top="275" Width="207" FontSize="20" RenderTransformOrigin="0.5,0.5" />
+            <TextBox Text="{Binding GeneticAlgorithm.PercentageOfChildrenFromPreviousGeneration}" Canvas.Left="15" Canvas.Top="305" Height="31" Width="164" />
+            <Label Content="Bee algorithm parameters" Foreground="Black" Height="40" Canvas.Left="1030" Canvas.Top="65" Width="275" FontSize="20" RenderTransformOrigin="0.5,0.5" />
+            <Label Content="Number of iterations" Foreground="Black" Height="35" Canvas.Left="1032" Canvas.Top="90" Width="195" FontSize="20" RenderTransformOrigin="0.5,0.5" />
+            <TextBox Text="{Binding Parameters.NumberOfPlanksPerPack}" Canvas.Left="1038" Canvas.Top="120" Height="31" Width="164"/>
+            <Label Content="Size of population" Foreground="Black" Height="35" Canvas.Left="1034" Canvas.Top="150" Width="195" FontSize="20" RenderTransformOrigin="0.5,0.5" />
+            <TextBox Text="{Binding Parameters.NumberOfPlanksPerPack}" Canvas.Left="1038" Canvas.Top="180" Height="31" Width="164"/>
+            <Label Content="Elite bees" Foreground="Black" Height="35" Canvas.Left="1034" Canvas.Top="210" Width="195" FontSize="20" RenderTransformOrigin="0.5,0.5" />
+            <TextBox Text="{Binding Parameters.NumberOfPlanksPerPack}" Canvas.Left="1038" Canvas.Top="240" Height="31" Width="164"/>
+            <Label Content="Acceptable bees" Foreground="Black" Height="35" Canvas.Left="1035" Canvas.Top="270" Width="195" FontSize="20" RenderTransformOrigin="0.5,0.5" />
+            <TextBox Text="{Binding Parameters.NumberOfPlanksPerPack}" Canvas.Left="1038" Canvas.Top="300" Height="31" Width="164"/>
+            <Button Command="{Binding}" Content="Start algorithm" Height="40" Canvas.Left="1038" Canvas.Top="345" Width="180" Foreground="Black" FontSize="20"/>
+            <Button Command="{Binding GoToPlotsCommand}" Content="Start algorithm" Height="40" Canvas.Left="15" Canvas.Top="345" Width="180" Foreground="Black" FontSize="20"/>
+            <oxy:Plot x:Name="plot1" 
+                  Title="Factory profit" 
+                  Margin="290,80,250,100">
+                <oxy:Plot.Axes>
+                    <oxy:LinearAxis Title="Iteration number" 
+                                Position="Bottom" 
+                                MajorGridlineStyle="Solid" 
+                                MinorGridlineStyle="Solid" 
+                                MinimumPadding="0" 
+                                MaximumPadding="2"/>
+                    <oxy:LinearAxis Title="Profit" 
+                                Position="Left" 
+                                MajorGridlineStyle="Solid" 
+                                MinorGridlineStyle="Solid"
+                                TickStyle="Outside" />
+                </oxy:Plot.Axes>
+                <oxy:Plot.Series>
+                    <oxy:LineSeries
+                    ItemsSource="{Binding Data, Mode=OneWay}"
+                    DataFieldX="XData"
+                    DataFieldY="YData"
+                    MarkerSize="1"
+                    MarkerType="Plus"
+                    />
+                </oxy:Plot.Series>
+            </oxy:Plot>
+        </Canvas>
+
     </Grid>
 </Window>

@@ -3,6 +3,7 @@ using System.Windows;
 using WorkOptimization.Models.BessAlgorithm;
 using WorkOptimization.Models.FactoryProcessing;
 using WorkOptimization.Models.GeneticAlgorithm;
+using WorkOptimization.ViewModels;
 
 namespace WorkOptimization
 {
@@ -14,6 +15,7 @@ namespace WorkOptimization
         public MainWindow()
         {
             InitializeComponent();
+            this.DataContext = new GeneticAlgorithmViewModel();
             //FactoryController Factory = FactoryController.Create();
             //GeneticAlgorithmParameters Parameters = GeneticAlgorithmParameters.Create(25,20,100,1,0.2,2);
             //GeneticAlgorithmController Controller = new GeneticAlgorithmController(Parameters,Factory);

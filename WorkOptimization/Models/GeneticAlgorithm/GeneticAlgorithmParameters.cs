@@ -134,6 +134,19 @@ namespace WorkOptimization.Models.GeneticAlgorithm
             }
         }
 
+        public GeneticAlgorithmParameters()
+        { }
+        public GeneticAlgorithmParameters(GeneticAlgorithmParameters x)
+        {
+            this.NumberOfIterations = x.NumberOfIterations;
+            this.SizeOfPopulation = x.SizeOfPopulation;
+            this.MutationRate = x.MutationRate;
+            this.PercentageOfChildrenFromPreviousGeneration = x.PercentageOfChildrenFromPreviousGeneration;
+            this.EmployeesNumber = 25;
+            this.PercentageOfParentsChosenToSelection = 0;
+
+        }
+
         private GeneticAlgorithmParameters(int employeesNumber, int sizeOfPopulation, int numberOfIterations, 
             double mutationRate, double percentageOfChildrenFromPreviousGeneration, double percentageOfParentsChosenToSelection)
         {

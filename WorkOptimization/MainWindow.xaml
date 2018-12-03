@@ -13,13 +13,13 @@
                        " RenderTransformOrigin="0.5,0.5" />
             <Label Content="Genetic algorithm parameters" Foreground="Black" Height="40" Canvas.Left="10" Canvas.Top="65" Width="275" FontSize="20" RenderTransformOrigin="0.5,0.5" />
             <Label Content="Number of iterations" Foreground="Black" Height="35" Canvas.Left="10" Canvas.Top="90" Width="195" FontSize="20" RenderTransformOrigin="0.5,0.5" />
-            <TextBox Text="{Binding GeneticAlgorithmParameters.NumberOfIterations}" Canvas.Left="15" Canvas.Top="120" Height="31" Width="164"/>
+            <TextBox Text="{Binding Parameters.NumberOfIterations}" Canvas.Left="15" Canvas.Top="120" Height="31" Width="164"/>
             <Label Content="Size of population" Foreground="Black" Height="35" Canvas.Left="10" Canvas.Top="149" Width="170" FontSize="20" RenderTransformOrigin="0.5,0.5" />
-            <TextBox Text="{Binding GeneticAlgorithmParameters.SizeOfPopulation}" Canvas.Left="15" Canvas.Top="179" Height="31" Width="164"/>
+            <TextBox Text="{Binding Parameters.SizeOfPopulation}" Canvas.Left="15" Canvas.Top="179" Height="31" Width="164"/>
             <Label Content="Mutation Rate" Foreground="Black" Height="35" Canvas.Left="10" Canvas.Top="210" Width="170" FontSize="20" RenderTransformOrigin="0.5,0.5" />
-            <TextBox Text="{Binding GeneticAlgorithmParameters.MutationRate}" Canvas.Left="15" Canvas.Top="240" Height="31" Width="164"/>
+            <TextBox Text="{Binding Parameters.MutationRate}" Canvas.Left="15" Canvas.Top="240" Height="31" Width="164"/>
             <Label Content="Percentage of children" Foreground="Black" Height="35" Canvas.Left="10" Canvas.Top="275" Width="207" FontSize="20" RenderTransformOrigin="0.5,0.5" />
-            <TextBox Text="{Binding GeneticAlgorithmParameters.PercentageOfChildrenFromPreviousGeneration}" Canvas.Left="15" Canvas.Top="305" Height="31" Width="164" />
+            <TextBox Text="{Binding Parameters.PercentageOfChildrenFromPreviousGeneration}" Canvas.Left="15" Canvas.Top="305" Height="31" Width="164" />
             <Label Content="Bee algorithm parameters" Foreground="Black" Height="40" Canvas.Left="1030" Canvas.Top="65" Width="275" FontSize="20" RenderTransformOrigin="0.5,0.5" />
             <Label Content="Number of iterations" Foreground="Black" Height="35" Canvas.Left="1032" Canvas.Top="90" Width="195" FontSize="20" RenderTransformOrigin="0.5,0.5" />
             <TextBox Text="{Binding Parameters.NumberOfPlanksPerPack}" Canvas.Left="1038" Canvas.Top="120" Height="31" Width="164"/>
@@ -30,7 +30,7 @@
             <Label Content="Acceptable bees" Foreground="Black" Height="35" Canvas.Left="1035" Canvas.Top="270" Width="195" FontSize="20" RenderTransformOrigin="0.5,0.5" />
             <TextBox Text="{Binding Parameters.NumberOfPlanksPerPack}" Canvas.Left="1038" Canvas.Top="300" Height="31" Width="164"/>
             <Button Command="{Binding}" Content="Start Bee algorithm" Height="40" Canvas.Left="1038" Canvas.Top="345" Width="180" Foreground="Black" FontSize="20"/>
-            <Button Command="{Binding GoToPlotsCommand}" Content="Start algorithm" Height="40" Canvas.Left="15" Canvas.Top="345" Width="180" Foreground="Black" FontSize="20"/>
+            <Button Command="{Binding CreateCommand}" Content="Start algorithm" Height="40" Canvas.Left="15" Canvas.Top="345" Width="180" Foreground="Black" FontSize="20"/>
         </Canvas>
         <oxy:Plot x:Name="plot1" 
                   Title="Factory profit" 

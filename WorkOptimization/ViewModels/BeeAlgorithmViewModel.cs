@@ -1,32 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WorkOptimization.Models.BessAlgorithm;
 using WorkOptimization.Models.FactoryProcessing;
-using WorkOptimization.Models.GeneticAlgorithm;
 using WorkOptimization.ViewModels.Commands;
 
 namespace WorkOptimization.ViewModels
 {
-    public class GeneticAlgorithmViewModel
+    public class BeeAlgorithmViewModel
     {
-        public CreateGACommand CreateGACommand { get; set; }
-        public GeneticAlgorithmParameters Parameters { get; set; }
-        public GeneticAlgorithmViewModel()
+        public CreateBeeCommand CreateBeeCommand { get; set; }
+        public BeesAlgorithmParameters BAParameters { get; set; }
+        public BeeAlgorithmViewModel()
         {
-            this.Parameters = new GeneticAlgorithmParameters();
-            this.CreateGACommand = new CreateGACommand(this);
+            this.BAParameters = new BeesAlgorithmParameters();
+            this.CreateBeeCommand = new CreateBeeCommand(this);
         }
         public void CreateMethod()
         {
             //Debug.WriteLine("hello");
             FactoryController Factory = FactoryController.Create();
-            Parameters.EmployeesNumber = 25;
-            Parameters.PercentageOfParentsChosenToSelection = 0;
+            BAParameters.EmployeesNumber = 25;
             //GeneticAlgorithmParameters newParameters = GeneticAlgorithmParameters.Create(this.Parameters.EmployeesNumber, this.Parameters.SizeOfPopulation, this.Parameters.NumberOfIterations, this.Parameters.MutationRate, this.Parameters.PercentageOfChildrenFromPreviousGeneration, 0);
-            GeneticAlgorithmController Controller = new GeneticAlgorithmController(Parameters, Factory);
+            BeesAlgorithmController Controller = new BeesAlgorithmController(BAParameters, Factory);
 
         }
     }

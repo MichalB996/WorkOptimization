@@ -7,11 +7,11 @@ using System.Windows.Input;
 
 namespace WorkOptimization.ViewModels.Commands
 {
-    public class CreateCommand : ICommand
+    public class CreateGACommand : ICommand
     {
         public GeneticAlgorithmViewModel GeneticAlgorithm {get; set;}
         public event EventHandler CanExecuteChanged;
-        public CreateCommand(GeneticAlgorithmViewModel x)
+        public CreateGACommand(GeneticAlgorithmViewModel x)
         {
             this.GeneticAlgorithm = x;
         }

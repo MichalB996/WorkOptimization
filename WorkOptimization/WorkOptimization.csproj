@@ -72,7 +72,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ViewModels\Commands\CreateCommand.cs" />
+    <Compile Include="ViewModels\BeeAlgorithmViewModel.cs" />
+    <Compile Include="ViewModels\Commands\CreateBeeCommand.cs" />
+    <Compile Include="ViewModels\Commands\CreateGACommand.cs" />
     <Compile Include="ViewModels\GeneticAlgorithmViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

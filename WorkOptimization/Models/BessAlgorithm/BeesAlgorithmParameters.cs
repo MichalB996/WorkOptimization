@@ -1,12 +1,16 @@
-﻿namespace WorkOptimization.Models.BessAlgorithm
+﻿using System.ComponentModel;
+
+namespace WorkOptimization.Models.BessAlgorithm
 {
-    public class BeesAlgorithmParameters
+    public class BeesAlgorithmParameters : INotifyPropertyChanged
     {
         private int _employeesNumber;
         private int _sizeOfPopulation;
         private int _numberOfIterations;
         private double _numberOfEliteBees;
         private double _numberOfAcceptableBees;
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public int EmployeesNumber
         {
@@ -41,6 +45,7 @@
                 }
 
                 _sizeOfPopulation = value;
+                PropertyChanged(this, new PropertyChangedEventArgs(SizeOfPopulation.ToString()));
             }
         }
 
@@ -59,6 +64,8 @@
                 }
 
                 _numberOfIterations = value;
+                PropertyChanged(this, new PropertyChangedEventArgs(NumberOfIterations.ToString()));
+
             }
         }
 
@@ -77,6 +84,7 @@
                 }
 
                 _numberOfEliteBees = value;
+                PropertyChanged(this, new PropertyChangedEventArgs(NumberOfEliteBees.ToString()));
             }
         }
 
@@ -96,8 +104,12 @@
                 }
 
                 _numberOfAcceptableBees = value;
+                PropertyChanged(this, new PropertyChangedEventArgs(NumberOfAcceptableBees.ToString()));
             }
         }
+        
+        public BeesAlgorithmParameters()
+        { }
 
         private BeesAlgorithmParameters(int employeesNumber, int sizeOfPopulation, int numberOfIterations,
             double numberOfEliteBees, double numberOfAcceptableBees)

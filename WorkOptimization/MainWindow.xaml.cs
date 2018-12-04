@@ -16,6 +16,7 @@ namespace WorkOptimization
         {
             InitializeComponent();
             this.DataContext = new GeneticAlgorithmViewModel();
+            this.DataContext = new BeeAlgorithmViewModel();
             //FactoryController Factory = FactoryController.Create();
             //GeneticAlgorithmParameters Parameters = GeneticAlgorithmParameters.Create(25,20,100,1,0.2,2);
             //GeneticAlgorithmController Controller = new GeneticAlgorithmController(Parameters,Factory);

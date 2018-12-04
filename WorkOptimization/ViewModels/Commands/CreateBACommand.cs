@@ -1,17 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
+using WorkOptimization.Views;
 
 namespace WorkOptimization.ViewModels.Commands
 {
-    public class CreateBeeCommand : ICommand
+    public class CreateBACommand : ICommand
     {
         public BeeAlgorithmViewModel BeeAlgorithm { get; set; }
         public event EventHandler CanExecuteChanged;
-        public CreateBeeCommand(BeeAlgorithmViewModel x)
+
+        public CreateBACommand(BeeAlgorithmViewModel x)
         {
             this.BeeAlgorithm = x;
         }
@@ -24,6 +22,11 @@ namespace WorkOptimization.ViewModels.Commands
         public void Execute(object parameter)
         {
             this.BeeAlgorithm.CreateMethod();
+            PlotWindow x = new PlotWindow
+            {
+                DataContext = this.BeeAlgorithm
+            };
+            x.Show();
         }
     }
 }

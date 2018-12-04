@@ -51,6 +51,7 @@ namespace WorkOptimization.Models.GeneticAlgorithm
             Population = Population.OrderBy(o => o.Profit).ToList();
             _iterationResults.Add(Population[Population.Count - 1].Profit);
             UpdatePopulation(Population, _numberOfIterations);
+            var Data = Plotter.Plotter.Plot(_iterationResults);
             CreateResultFile.CreateFile.CreateResultFile(_iterationResults);
         }
 

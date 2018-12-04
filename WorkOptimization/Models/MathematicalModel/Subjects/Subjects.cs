@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using WorkOptimization.EF;
 using WorkOptimization.Models.FactoryProcessing;
 
@@ -11,7 +7,6 @@ namespace WorkOptimization.Models.MathematicalModel.Subjects
     public class Subjects
     {
         private List<Employees> _employeesList;
-        //private Dictionary<int,> _employessMachines;
         public Dictionary<int, List<Employees>> _machinesAndItsOperators;
 
         public Subjects(FactoryController factory)

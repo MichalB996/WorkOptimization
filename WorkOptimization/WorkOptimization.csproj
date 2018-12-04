@@ -73,9 +73,14 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ViewModels\BeeAlgorithmViewModel.cs" />
-    <Compile Include="ViewModels\Commands\CreateBeeCommand.cs" />
+    <Compile Include="ViewModels\BothAlgorithmsViewModel.cs" />
+    <Compile Include="ViewModels\Commands\CreateBACommand.cs" />
+    <Compile Include="ViewModels\Commands\CreateBothAlgorithmsCommand.cs" />
     <Compile Include="ViewModels\Commands\CreateGACommand.cs" />
     <Compile Include="ViewModels\GeneticAlgorithmViewModel.cs" />
+    <Compile Include="Views\PlotWindow.xaml.cs">
+      <DependentUpon>PlotWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -105,6 +110,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\PlotWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\GeneticAlgorithm\IAlgorithm.cs" />
@@ -140,8 +149,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
